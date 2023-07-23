@@ -3,6 +3,7 @@ import { Component } from 'react';
 import { ContactForm } from './ContactForm/ContactForm';
 import { ContactList } from './ContactList/ContactList';
 import { Filter } from './Filter/Filter';
+import css from './App.module.css';
 
 export class App extends Component {
   state = {
@@ -60,15 +61,20 @@ export class App extends Component {
     const visibleContacts = this.getVisibleContacts();
 
     return (
-      <div>
-        <h1> Phonebook </h1>
+      <div className={css.container}>
+        <h1 className={css.title}> Phonebook </h1>
+
         <ContactForm createContact={this.addContact} />
-        <h2>Contacts</h2>
+
+        <h2 className={css.subTitle}>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList
-          contacts={visibleContacts}
-          handleDelete={this.handleDelete}
-        />
+
+        {this.state.contacts.length > 0 && (
+          <ContactList
+            contacts={visibleContacts}
+            handleDelete={this.handleDelete}
+          />
+        )}
       </div>
     );
   }
