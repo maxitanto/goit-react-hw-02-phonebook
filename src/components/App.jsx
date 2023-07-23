@@ -15,9 +15,18 @@ export class App extends Component {
     filter: '',
   };
 
-  addContact = data => {
+  addContact = contact => {
+    const isAdded = this.state.contacts.some(
+      ({ name }) => name.toLowerCase() === contact.name.toLowerCase()
+    );
+
+    if (isAdded) {
+      alert(`${contact.name}  is already in contacts.`);
+      return;
+    }
+
     const newContact = {
-      ...data,
+      ...contact,
       id: nanoid(),
     };
 
@@ -26,10 +35,16 @@ export class App extends Component {
     }));
   };
 
-  changeFilter = e => {
+  changeFilter = ({ target }) => {
     this.setState({
-      filter: e.target.value,
+      filter: target.value,
     });
+  };
+
+  handleDelete = id => {
+    this.setState(prevState => ({
+      contacts: prevState.contacts.filter(contact => contact.id !== id),
+    }));
   };
 
   //Фільтрація незалежна від регістру
@@ -50,7 +65,10 @@ export class App extends Component {
         <ContactForm createContact={this.addContact} />
         <h2>Contacts</h2>
         <Filter value={this.state.filter} onChange={this.changeFilter} />
-        <ContactList contacts={visibleContacts} />
+        <ContactList
+          contacts={visibleContacts}
+          handleDelete={this.handleDelete}
+        />
       </div>
     );
   }

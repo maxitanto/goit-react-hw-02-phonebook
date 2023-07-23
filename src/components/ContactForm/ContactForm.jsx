@@ -19,6 +19,14 @@ export class ContactForm extends Component {
       name: this.state.name,
       number: this.state.number,
     });
+
+    //Reset форми
+    this.reset();
+  };
+
+  //Reset форми
+  reset = () => {
+    this.setState({ name: '', number: '' });
   };
 
   render() {
@@ -44,6 +52,7 @@ export class ContactForm extends Component {
             // pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
             onChange={this.handleChange}
+            value={this.state.number}
             required
           />
         </label>
